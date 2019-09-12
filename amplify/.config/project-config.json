@@ -1,0 +1,17 @@
+{
+    "projectName": "todoapp",
+    "version": "2.0",
+    "frontend": "javascript",
+    "javascript": {
+        "framework": "angular",
+        "config": {
+            "SourceDir": "src",
+            "DistributionDir": "dist/aws-amplify-complete-todo-app",
+            "BuildCommand": "npm run-script build",
+            "StartCommand": "npm start"
+        }
+    },
+    "providers": [
+        "awscloudformation"
+    ]
+}

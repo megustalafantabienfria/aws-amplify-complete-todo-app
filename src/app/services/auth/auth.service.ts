@@ -6,53 +6,73 @@ import { SignUpConfirmationParams } from '../../models/index';
 
 import { SignUpParams, UsernamePasswordOpts } from '@aws-amplify/auth/lib/types';
 
-import { from, Observable } from 'rxjs';
+import { from, Observable, BehaviorSubject } from 'rxjs';
+import { ISignUpResult } from 'amazon-cognito-identity-js';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
+  private tempEmail = new BehaviorSubject<string>(undefined);
+
   constructor() {}
 
-  async signUp(payload: SignUpParams): Promise<void> {
+  async signUp(payload: SignUpParams): Promise<ISignUpResult | Error> {
+    this.tempEmail.next(payload.username);
+
     try {
-      const signUpData = await Auth.signUp({
+      const signedUpUser = await Auth.signUp({
         username: payload.username,
         password: payload.password,
         attributes: payload.attributes
       });
-      console.log(signUpData);
+
+      return signedUpUser;
     } catch (error) {
-      console.log(error);
+      throw error;
     }
   }
 
-  async confirmSignUp(params: SignUpConfirmationParams): Promise<void> {
+  async confirmSignUp(params: SignUpConfirmationParams): Promise<any> {
+    this.tempEmail.next(undefined);
+
     try {
       const confirmationData = await Auth.confirmSignUp(
         params.username,
         params.code,
         params.options
       );
-      console.log(confirmationData);
+      return confirmationData;
     } catch (error) {
-      console.log(error);
+      throw error;
     }
   }
 
-  async signIn(params: UsernamePasswordOpts): Promise<void> {
+  async signIn(params: UsernamePasswordOpts): Promise<any> {
+    this.tempEmail.next(params.username);
+
     try {
-      const signedIn = await Auth.signIn(params);
-      console.log(signedIn);
+      const signedInUser = await Auth.signIn(params);
+      return signedInUser;
     } catch (error) {
-      console.log(error);
+      throw error;
     }
+  }
+
+  async signOut(): Promise<void> {}
+
+  get tempEmailValue(): string {
+    return this.tempEmail.value;
+  }
+
+  get existTempEmail$(): Observable<boolean> {
+    return this.tempEmail
+      .pipe(map(v => v !== undefined ? true : false));
   }
 
   get currentAuthenticatedUser(): Observable<any> {
     return from(Auth.currentUserInfo());
   }
-
-  async signOut(): Promise<void> {}
 
 }

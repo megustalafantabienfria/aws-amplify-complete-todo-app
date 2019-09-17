@@ -15,8 +15,6 @@ export class ToolsService {
 
     keys.forEach((k, i) => objGroup[k] = [initValues[i], validators[i]]);
 
-    console.log(objGroup);
-
     return this.formBuilder.group(objGroup);
   }
 

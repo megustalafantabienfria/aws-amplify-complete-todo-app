@@ -1,1 +1,1 @@
-export * from './sign-up-params/sign-up-params';
+export * from './sign/sign';

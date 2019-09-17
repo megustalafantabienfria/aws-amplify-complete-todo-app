@@ -1,0 +1,27 @@
+.header
+  display: grid
+  grid-template-rows: 100%
+  grid-template-columns: 10% 70% 10% 10%
+  background-color: #2B2D42
+  color: #fcfcfc
+  align-items: flex-start
+  position: fixed
+  min-height: 5vh
+  min-width: 100vw
+
+  div
+    align-self: center
+    justify-self: center
+    text-align: center
+
+  &__home
+    grid-column-start: 1
+
+  &__sign-up
+    grid-column-start: 3
+
+  &__sign-in-out
+    grid-column-start: 4
+
+.active
+  background-color: green

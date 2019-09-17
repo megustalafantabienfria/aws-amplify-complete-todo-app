@@ -1,0 +1,16 @@
+<div class="sign-in">
+  <form class="sign-in__section" [formGroup]="checkoutForm">
+    <h1 class="sign-in__section-title">Sign In</h1>
+    <div class="sign-in__section-input">
+      <span>Email:</span>
+      <input type="email" formControlName="email" placeholder="Email">
+    </div>
+    <div class="sign-in__section-input">
+      <span>Password:</span>
+      <input type="password" formControlName="password" placeholder="Password">
+    </div>
+    <div class="sign-in__section-button">
+      <button [disabled]="!(canContinue | async)" (click)="signIn()">Sign In</button>
+    </div>
+  </form>
+</div>

@@ -1,6 +1,6 @@
 {
 	"auth": {
-		"todoapp6cf3f0b9": {
+		"todoapp5cf758b7": {
 			"service": "Cognito",
 			"providerPlugin": "awscloudformation",
 			"dependsOn": []

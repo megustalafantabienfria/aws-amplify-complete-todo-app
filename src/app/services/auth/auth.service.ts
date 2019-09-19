@@ -23,8 +23,13 @@ export class AuthService {
 
   private async sessionListener(): Promise<void> {
     this.session.next(await this.initSession.toPromise());
-    Hub.listen('auth',
-      c => this.session.next(c.payload.event === 'signOut' ? null : c.payload.data));
+    Hub.listen('auth', c =>
+      this.session.next(
+        c.payload.event === 'signIn' && c.payload.data instanceof CognitoUser
+          ? c.payload.data
+          : null
+      )
+    );
   }
 
   async signUp(payload: SignUpParams): Promise<ISignUpResult | Error> {
@@ -45,7 +50,6 @@ export class AuthService {
 
   async confirmSignUp(params: SignUpConfirmationParams): Promise<any> {
     try {
-      console.log(params);
       const confirmationData = await Auth.confirmSignUp(
         params.username,
         params.code,

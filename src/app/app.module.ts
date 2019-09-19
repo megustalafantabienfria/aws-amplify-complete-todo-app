@@ -5,7 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
 import { AmplifyAngularModule, AmplifyService } from 'aws-amplify-angular';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { HeaderComponent } from './core';
 import { SignInComponent } from './components/sign-in/sign-in.component';

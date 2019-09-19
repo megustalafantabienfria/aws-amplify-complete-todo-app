@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { Observable } from 'rxjs';
+import { TodosService } from 'src/app/services/todos/todos.service';
 
 @Component({
   selector: 'app-header',
@@ -11,9 +12,14 @@ export class HeaderComponent implements OnInit {
 
   session: Observable<any> = this.auth.currentSession;
 
-  constructor(private auth: AuthService) {}
+  constructor(
+    private auth: AuthService,
+    private todos: TodosService
+  ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.todos.test();
+  }
 
   async signOut(): Promise<void> {
     try {

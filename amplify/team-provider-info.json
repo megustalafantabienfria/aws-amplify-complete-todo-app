@@ -1,18 +1,18 @@
 {
     "dev": {
         "awscloudformation": {
-            "AuthRoleName": "todoapp-dev-20190912100924-authRole",
-            "UnauthRoleArn": "arn:aws:iam::327501625960:role/todoapp-dev-20190912100924-unauthRole",
-            "AuthRoleArn": "arn:aws:iam::327501625960:role/todoapp-dev-20190912100924-authRole",
+            "AuthRoleName": "todo-dev-20190919120542-authRole",
+            "UnauthRoleArn": "arn:aws:iam::327501625960:role/todo-dev-20190919120542-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::327501625960:role/todo-dev-20190919120542-authRole",
             "Region": "us-east-2",
-            "DeploymentBucketName": "todoapp-dev-20190912100924-deployment",
-            "UnauthRoleName": "todoapp-dev-20190912100924-unauthRole",
-            "StackName": "todoapp-dev-20190912100924",
-            "StackId": "arn:aws:cloudformation:us-east-2:327501625960:stack/todoapp-dev-20190912100924/4f36ac20-d56f-11e9-9ab3-0a1513ed47e4"
+            "DeploymentBucketName": "todo-dev-20190919120542-deployment",
+            "UnauthRoleName": "todo-dev-20190919120542-unauthRole",
+            "StackName": "todo-dev-20190919120542",
+            "StackId": "arn:aws:cloudformation:us-east-2:327501625960:stack/todo-dev-20190919120542/b6ee7fb0-daff-11e9-bbbf-06fb840c1544"
         },
         "categories": {
             "auth": {
-                "todoapp5cf758b7": {}
+                "todoAuth": {}
             }
         }
     }

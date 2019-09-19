@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/services/auth/auth.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-header',
@@ -8,17 +9,18 @@ import { AuthService } from 'src/app/services/auth/auth.service';
 })
 export class HeaderComponent implements OnInit {
 
+  session: Observable<any> = this.auth.currentSession;
 
+  constructor(private auth: AuthService) {}
 
-  constructor(
-    private auth: AuthService
-  ) {}
+  ngOnInit() {}
 
-  ngOnInit() {
-    this.auth.currentAuthenticatedUser.subscribe(
-      success => console.log(success),
-      error => console.log(error)
-    );
+  async signOut(): Promise<void> {
+    try {
+      await this.auth.signOut();
+    } catch (error) {
+      console.log(error);
+    }
   }
 
 }

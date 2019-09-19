@@ -1,22 +1,31 @@
 import { Injectable } from '@angular/core';
-import { Auth } from 'aws-amplify';
+import { Auth, Hub } from 'aws-amplify';
 
 /* Models */
 import { SignUpConfirmationParams } from '../../models/index';
 
 import { SignUpParams, UsernamePasswordOpts } from '@aws-amplify/auth/lib/types';
 
-import { from, Observable, BehaviorSubject } from 'rxjs';
-import { ISignUpResult } from 'amazon-cognito-identity-js';
-import { map } from 'rxjs/operators';
+import { from, Observable, BehaviorSubject, of } from 'rxjs';
+import { ISignUpResult, CognitoUser } from 'amazon-cognito-identity-js';
+import { map, catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   private tempEmail = new BehaviorSubject<string>(undefined);
+  private session = new BehaviorSubject<CognitoUser>(null);
 
-  constructor() {}
+  constructor() {
+    this.sessionListener();
+  }
+
+  private async sessionListener(): Promise<void> {
+    this.session.next(await this.initSession.toPromise());
+    Hub.listen('auth',
+      c => this.session.next(c.payload.event === 'signOut' ? null : c.payload.data));
+  }
 
   async signUp(payload: SignUpParams): Promise<ISignUpResult | Error> {
     this.tempEmail.next(payload.username);
@@ -35,14 +44,14 @@ export class AuthService {
   }
 
   async confirmSignUp(params: SignUpConfirmationParams): Promise<any> {
-    this.tempEmail.next(undefined);
-
     try {
+      console.log(params);
       const confirmationData = await Auth.confirmSignUp(
         params.username,
         params.code,
         params.options
-      );
+        );
+      this.tempEmail.next(undefined);
       return confirmationData;
     } catch (error) {
       throw error;
@@ -60,7 +69,13 @@ export class AuthService {
     }
   }
 
-  async signOut(): Promise<void> {}
+  async signOut(): Promise<any> {
+    try {
+      await Auth.signOut();
+    } catch (error) {
+      throw error;
+    }
+  }
 
   get tempEmailValue(): string {
     return this.tempEmail.value;
@@ -71,8 +86,12 @@ export class AuthService {
       .pipe(map(v => v !== undefined ? true : false));
   }
 
-  get currentAuthenticatedUser(): Observable<any> {
-    return from(Auth.currentUserInfo());
+  private get initSession(): Observable<CognitoUser> {
+    return from(Auth.currentAuthenticatedUser()).pipe(catchError(err => of(null)));
+  }
+
+  get currentSession(): BehaviorSubject<CognitoUser> {
+    return this.session;
   }
 
 }

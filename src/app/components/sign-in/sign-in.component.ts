@@ -49,7 +49,7 @@ export class SignInComponent implements OnInit {
     this.checkoutForm.disable();
     try {
       await this.auth.signIn(userToSignIn);
-      console.log('LOGUEADO');
+      this.router.navigate(['']);
     } catch (error) {
       if (error.code === 'UserNotConfirmedException') {
         this.router.navigate(['confirmation']);

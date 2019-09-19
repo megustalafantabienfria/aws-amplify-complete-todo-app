@@ -1,5 +1,6 @@
 <div class="header">
-  <div class="header__home" [routerLink]="''">Inicio</div>
-  <div class="header__sign-up" [routerLink]="'sign-up'">Crear cuenta</div>
-  <div class="header__sign-in-out" [routerLink]="'sign-in'">Iniciar Sesión</div>
+  <div class="header__home cr-p" [routerLink]="''">Inicio</div>
+  <div class="header__sign-up cr-p" [routerLink]="'sign-up'" *ngIf="!(session | async)">Sign Up</div>
+  <div class="header__sign-in-out cr-p" [routerLink]="'sign-in'" *ngIf="!(session | async)">Sign In</div>
+  <div class="header__sign-in-out cr-p" (click)="signOut()" *ngIf="(session | async)">Sign Out</div>
 </div>

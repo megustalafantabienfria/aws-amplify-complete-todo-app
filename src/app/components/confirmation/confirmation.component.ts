@@ -5,6 +5,7 @@ import { Observable, pipe } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { SignUpConfirmationParams } from 'src/app/models';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-confirmation',
@@ -18,7 +19,8 @@ export class ConfirmationComponent implements OnInit {
 
   constructor(
     private tools: ToolsService,
-    private auth: AuthService
+    private auth: AuthService,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -37,13 +39,14 @@ export class ConfirmationComponent implements OnInit {
   async verifyCode(): Promise<void> {
     const payloadCode = this.checkoutForm.value;
     const userToVerify: SignUpConfirmationParams = {
-      code: payloadCode,
+      code: payloadCode.code,
       username: this.auth.tempEmailValue
     };
 
     this.checkoutForm.disable();
     try {
       await this.auth.confirmSignUp(userToVerify);
+      this.router.navigate(['sign-in']);
     } catch (error) {
       console.log(error);
       this.checkoutForm.enable();

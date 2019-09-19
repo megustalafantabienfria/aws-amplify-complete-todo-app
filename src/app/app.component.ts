@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { TodosService } from './services/todos/todos.service';
 
 @Component({
   selector: 'app-root',

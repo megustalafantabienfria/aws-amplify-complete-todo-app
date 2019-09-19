@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { Observable } from 'rxjs';
-import { TodosService } from 'src/app/services/todos/todos.service';
+import { APIService } from 'src/app/services/API/API.service';
 
 @Component({
   selector: 'app-header',
@@ -14,11 +14,12 @@ export class HeaderComponent implements OnInit {
 
   constructor(
     private auth: AuthService,
-    private todos: TodosService
+    private API: APIService
   ) {}
 
   ngOnInit() {
-    this.todos.test();
+    this.API.ListTodos().then(console.log);
+    this.API.CreateUser({ id: 'aber', email: 'aver' }).then(console.log).catch(console.log);
   }
 
   async signOut(): Promise<void> {
